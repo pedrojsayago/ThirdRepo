@@ -1,0 +1,6 @@
+if (condición) {  
+     sentencia;
+}  else { 
+        sentencia; 
+}
+
