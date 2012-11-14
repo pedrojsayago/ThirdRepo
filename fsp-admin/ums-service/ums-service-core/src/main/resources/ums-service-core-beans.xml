@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="ums.service.core.groupService"
+          class="com.thomsonreuters.grc.fsp.ums.service.core.GroupServiceImpl"
+          p:groupRepository-ref="groupRepository"/>
+
+    <bean id="ums.service.core.preferenceService"
+          class="com.thomsonreuters.grc.fsp.ums.service.core.PreferenceServiceImpl"
+          p:resolutionLinkRepository-ref="resolutionLinkRepository"
+          p:groupPreferenceRepository-ref="groupPreferenceRepository"
+          p:defaultPreferenceRepository-ref="defaultPreferenceRepository"
+          p:groupService-ref="ums.service.core.groupService"
+          p:customFieldTypeRepository-ref="customFieldTypeRepository"/>
+
+    <bean id="ums.service.core.userService"
+          class="com.thomsonreuters.grc.fsp.ums.service.core.UserServiceImpl"
+          p:userRepository-ref="userRepository"/>
+
+    <bean id="ums.service.core.screeningSettingService"
+          class="com.thomsonreuters.grc.fsp.ums.service.core.ScreeningSettingServiceImpl"
+          p:preferenceService-ref="ums.service.core.preferenceService"
+          p:screeningSettingRepository-ref="screeningSettingRepository"/>
+
+</beans>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <parent>
+        <groupId>com.thomsonreuters.grc.fsp</groupId>
+        <artifactId>ums</artifactId>
+        <version>0.1.0-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.thomsonreuters.grc.fsp.ums</groupId>
+    <artifactId>ums-dl</artifactId>
+
+    <packaging>jar</packaging>
+
+    <name>FSP UMS: DL</name>
+
+    <dependencies>
+        <!-- Internal - FSP -->
+        <dependency>
+            <groupId>com.thomsonreuters.grc.fsp.ums</groupId>
+            <artifactId>ums-domain</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.thomsonreuters.grc.fsp.ums</groupId>
+            <artifactId>ums-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- External -->
+        <dependency>
+            <groupId>commons-dbcp</groupId>
+            <artifactId>commons-dbcp</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-jta_1.1_spec</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-ehcache</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+        </dependency>
+    </dependencies>
+</project>

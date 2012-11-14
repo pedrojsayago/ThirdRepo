@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/tx  http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <tx:annotation-driven transaction-manager="data.transactionManager"/>
+
+    <bean id="service.ui.mapper" class="com.thomsonreuters.grc.fsp.ums.service.ui.util.Mapper"/>
+
+    <bean id="service.ui.groupService"
+          class="com.thomsonreuters.grc.fsp.ums.service.ui.GroupUIServiceImpl"
+          p:groupService-ref="ums.service.core.groupService"
+          p:userService-ref="ums.service.core.userService"
+          p:mapper-ref="service.ui.mapper"/>
+
+    <import resource="ums-service-ui-amqp.xml"/>
+
+    <import resource="ums-service-ui-routing.xml"/>
+
+    <import resource="ums-service-core-exception-routing.xml"/>
+</beans>
