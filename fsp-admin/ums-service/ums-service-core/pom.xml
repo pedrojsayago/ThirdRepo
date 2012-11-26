@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <parent>
+        <groupId>com.thomsonreuters.grc.fsp.ums</groupId>
+        <artifactId>ums-service</artifactId>
+        <version>0.1.0-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.thomsonreuters.grc.fsp.ums.service</groupId>
+    <artifactId>ums-service-core</artifactId>
+
+    <packaging>jar</packaging>
+
+    <name>FSP UMS: Service: Core</name>
+
+    <dependencies>
+        <!-- Internal - FSP -->
+        <dependency>
+            <groupId>com.thomsonreuters.grc.fsp.ums</groupId>
+            <artifactId>ums-dl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.thomsonreuters.grc.fsp.ums.client</groupId>
+            <artifactId>ums-client-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.thomsonreuters.grc.fsp.ums</groupId>
+            <artifactId>ums-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.thomsonreuters.grc.platform.util</groupId>
+            <artifactId>util-integration</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>test-jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

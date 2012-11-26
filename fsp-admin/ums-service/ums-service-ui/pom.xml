@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.thomsonreuters.grc.fsp.ums</groupId>
+        <artifactId>ums-service</artifactId>
+        <version>0.1.0-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.thomsonreuters.grc.fsp.ums.service</groupId>
+    <artifactId>ums-service-ui</artifactId>
+
+    <packaging>war</packaging>
+
+    <name>FSP UMS: Service: UI</name>
+
+    <properties>
+        <appName>${project.artifactId}</appName>
+        <appRelease>v${project.version}</appRelease>
+        <buildTimestamp>${maven.build.timestamp}</buildTimestamp>
+    </properties>
+
+    <build>
+        <filters>
+            <filter>src/main/resources/git.properties</filter>
+        </filters>
+    </build>
+
+    <dependencies>
+        <!-- Internal - FSP -->
+        <dependency>
+            <groupId>com.thomsonreuters.grc.fsp.ums.client</groupId>
+            <artifactId>ums-client-ui</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.thomsonreuters.grc.fsp.ums.service</groupId>
+            <artifactId>ums-service-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.thomsonreuters.grc.fsp.ums.service</groupId>
+            <artifactId>ums-service-core</artifactId>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.thomsonreuters.grc.fsp.ums</groupId>
+            <artifactId>ums-test</artifactId>
+        </dependency>
+
+        <!-- External -->
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib-nodep</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ma.glasnost.orika</groupId>
+            <artifactId>orika-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.integration</groupId>
+            <artifactId>spring-integration-amqp</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.retry</groupId>
+            <artifactId>spring-retry</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+        </dependency>
+    </dependencies>
+</project>

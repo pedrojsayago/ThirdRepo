@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="retry.template" class="org.springframework.retry.support.RetryTemplate">
+        <property name="retryPolicy">
+            <bean class="org.springframework.retry.policy.SimpleRetryPolicy"
+                  p:maxAttempts="${messaging.exception.retry.attempts}"/>
+        </property>
+    </bean>
+
+    <bean id="retry.interceptor"
+          class="org.springframework.retry.interceptor.StatefulRetryOperationsInterceptor"
+          p:retryOperations-ref="retry.template"
+          p:keyGenerator-ref="amqp.message.key.generator"
+          p:recoverer-ref="amqp.message.recoverer"/>
+
+    <bean id="amqp.message.key.generator"
+          class="com.thomsonreuters.grc.platform.util.integration.messaging.handler.AmqpMessageKeyGenerator"/>
+
+    <bean id="amqp.message.recoverer"
+          class="com.thomsonreuters.grc.platform.util.integration.messaging.handler.AmqpMessageRecoverer"
+          p:exceptionQueue="${messaging.exception.queue}"
+          p:template-ref="exception.template"/>
+
+    <bean id="exception.template" class="org.springframework.amqp.rabbit.core.RabbitTemplate"
+          p:connectionFactory-ref="service.ui.rabbitConnectionFactory" />
+
+</beans>

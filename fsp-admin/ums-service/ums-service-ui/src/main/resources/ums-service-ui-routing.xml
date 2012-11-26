@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:si="http://www.springframework.org/schema/integration"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd">
+
+    <si:header-value-router input-channel="service.ui.inboundMessageChannel" header-name="amqp_receivedRoutingKey">
+        <si:mapping value="v1.ui.screening.groups" channel="service.ui.screeningGroupsChannel"/>
+        <si:mapping value="v1.ui.admin.clients.list" channel="service.ui.listClientsChannel"/>
+        <si:mapping value="v1.ui.admin.clients.create" channel="service.ui.createClientChannel"/>
+    </si:header-value-router>
+
+    <si:channel id="service.ui.screeningGroupsChannel"/>
+    <si:chain input-channel="service.ui.screeningGroupsChannel">
+        <si:service-activator ref="service.ui.groupService" method="getScreeningGroup"/>
+    </si:chain>
+
+    <si:channel id="service.ui.listClientsChannel"/>
+    <si:chain input-channel="service.ui.listClientsChannel">
+        <si:service-activator ref="service.ui.groupService" method="getClients"/>
+    </si:chain>
+
+    <si:channel id="service.ui.createClientChannel"/>
+    <si:chain input-channel="service.ui.createClientChannel">
+        <si:service-activator ref="service.ui.groupService" method="createClient"/>
+    </si:chain>
+</beans>

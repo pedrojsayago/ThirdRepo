@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <bean id="test.databaseImporter" class="com.thomsonreuters.grc.platform.util.testing.DatabaseImporter"
+          p:dataSource-ref="test.dataSource"
+          p:dataTypeFactory-ref="test.dataTypeFactory"
+          p:inputFileLocation="/ums-db.xml"/>
+
+    <bean id="test.dataSourceTarget" class="org.apache.commons.dbcp.BasicDataSource"
+          destroy-method="close" p:driverClassName="org.h2.Driver"
+          p:url="jdbc:h2:mem:fsp" p:username="developer"
+          p:password="0rb1tal" p:validationQuery="SELECT 1"/>
+
+    <bean id="test.dataSource"
+          class="org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy"
+          p:targetDataSource-ref="test.dataSourceTarget"/>
+
+    <bean id="test.dataTypeFactory" class="org.dbunit.ext.h2.H2DataTypeFactory"/>
+
+    <context:property-placeholder properties-ref="test.properties"/>
+
+    <util:properties id="test.properties">
+        <prop key="db.driver">org.h2.Driver</prop>
+        <prop key="db.password">0rb1tal</prop>
+        <prop key="db.url">jdbc:h2:mem:fsp</prop>
+        <prop key="db.username">developer</prop>
+        <prop key="hibernate.autoReconnect">true</prop>
+        <prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
+        <prop key="hibernate.format_sql">true</prop>
+        <prop key="hibernate.generate_statistics">false</prop>
+        <prop key="hibernate.hbm2ddl.auto">update</prop>
+        <prop key="hibernate.jdbc.use_scrollable_resultset">true</prop>
+        <prop key="hibernate.query.substitutions">true</prop>
+        <prop key="hibernate.show_sql">false</prop>
+        <prop key="hibernate.use_sql_comments">false</prop>
+
+        <prop key="namematcher.rest.endpoint">http://10.198.228.71:8100/name-matcher-service/rest</prop>
+
+        <prop key="messaging.exception.queue">fsp-dummy-replyto</prop>
+        <prop key="messaging.exception.retry.attempts">3</prop>
+        <prop key="messaging.rabbit.server">gboff01-dev-c4-rmq02</prop>
+        <prop key="messaging.rabbit.port">5672</prop>
+        <prop key="messaging.rabbit.vhost">fsp</prop>
+        <prop key="messaging.rabbit.username">fsp</prop>
+        <prop key="messaging.rabbit.password">password</prop>
+        <prop key="messaging.rabbit.queues">v1.ui.read,v1.ui.write</prop>
+    </util:properties>
+</beans>

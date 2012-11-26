@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:amqp="http://www.springframework.org/schema/integration/amqp"
+       xmlns:si="http://www.springframework.org/schema/integration"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/integration/amqp http://www.springframework.org/schema/integration/amqp/spring-integration-amqp.xsd
+       http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+       http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit.xsd">
+
+    <si:channel id="service.ui.inboundMessageChannel"/>
+
+    <amqp:inbound-gateway id="service.ui.inboundGateway"
+                          queue-names="${messaging.rabbit.queues}"
+                          request-channel="service.ui.inboundMessageChannel"
+                          mapped-request-headers="*"
+                          advice-chain="retry.interceptor"
+                          message-converter="service.ui.jsonMessageConverter"
+                          concurrent-consumers="1"
+                          connection-factory="service.ui.rabbitConnectionFactory"/>
+
+    <bean id="service.ui.jsonMessageConverter"
+          class="org.springframework.amqp.support.converter.JsonMessageConverter"
+          p:classMapper-ref="service.ui.classMapper"/>
+
+    <bean id="service.ui.classMapper" class="org.springframework.amqp.support.converter.DefaultClassMapper">
+        <property name="idClassMapping">
+            <map>
+                <entry key="identifierRequest" value="#{T(com.thomsonreuters.grc.fsp.ums.client.ui.dto.IdentifierRequest)}"/>
+            </map>
+        </property>
+    </bean>
+
+    <rabbit:connection-factory id="service.ui.rabbitConnectionFactory"
+                               host="${messaging.rabbit.server}"
+                               port="${messaging.rabbit.port}"
+                               virtual-host="${messaging.rabbit.vhost}"
+                               username="${messaging.rabbit.username}"
+                               password="${messaging.rabbit.password}"/>
+
+    <si:channel id="service.ui.errorChannel"/>
+
+    <si:logging-channel-adapter channel="service.ui.errorChannel" level="ERROR"/>
+</beans>

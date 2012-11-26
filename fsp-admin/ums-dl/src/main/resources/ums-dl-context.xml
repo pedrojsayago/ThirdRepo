@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <import resource="ums-dl-beans.xml"/>
+
+    <bean id="data.configLoader" class="com.thomsonreuters.grc.platform.util.config.ConfigLoader"
+          p:scopes-ref="data.configScopes"/>
+
+    <util:list id="data.configScopes">
+        <value>/com/thomsonreuters/grc/fsp/data</value>
+    </util:list>
+</beans>

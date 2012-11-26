@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:c="http://www.springframework.org/schema/c"
+       xsi:schemaLocation="http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+           http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <jpa:repositories base-package="com.thomsonreuters.grc.fsp.ums.dl"
+                      entity-manager-factory-ref="data.entityManagerFactory"
+                      factory-class="com.thomsonreuters.grc.platform.util.database.repository.revision.RevisionRepositoryFactoryBean"
+                      transaction-manager-ref="data.transactionManager"/>
+
+    <bean id="groupPreferenceRepositoryImpl"
+          class="com.thomsonreuters.grc.fsp.ums.dl.repository.preference.GroupPreferenceRepositoryImpl"
+          p:entityManager-ref="data.entityManager"
+          p:groupRepository-ref="groupRepository"/>
+
+    <bean id="groupRepositoryImpl"
+          class="com.thomsonreuters.grc.fsp.ums.dl.repository.GroupRepositoryImpl"
+          p:entityManager-ref="data.entityManager"/>
+
+    <bean id="screeningSettingRepositoryImpl"
+          class="com.thomsonreuters.grc.fsp.ums.dl.repository.setting.ScreeningSettingRepositoryImpl"
+          c:entityManager-ref="data.entityManager"/>
+
+    <bean id="data.transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"
+          p:entityManagerFactory-ref="data.entityManagerFactory"/>
+
+    <bean id="data.dataSourceTarget" class="org.apache.commons.dbcp.BasicDataSource"
+          destroy-method="close" p:driverClassName="${db.driver}"
+          p:url="${db.url}" p:username="${db.username}"
+          p:password="${db.password}" p:initialSize="0"
+          p:maxActive="10" p:maxIdle="10" p:poolPreparedStatements="true"
+          p:testOnBorrow="false" p:testOnReturn="false" p:testWhileIdle="true"
+          p:timeBetweenEvictionRunsMillis="300000" p:validationQuery="SELECT 1"/>
+
+    <bean id="data.dataSource"
+          class="org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy"
+          p:targetDataSource-ref="data.dataSourceTarget"/>
+
+    <bean id="data.entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
+          p:dataSource-ref="data.dataSource" p:packagesToScan="com.thomsonreuters.grc.fsp.ums.domain"
+          p:persistenceUnitName="fsp" p:persistenceProviderClass="org.hibernate.ejb.HibernatePersistence">
+        <property name="jpaDialect">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaDialect"/>
+        </property>
+        <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.autoReconnect">${hibernate.autoReconnect}</prop>
+                <prop key="hibernate.dialect">${hibernate.dialect}</prop>
+                <prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
+                <prop key="hibernate.generate_statistics">${hibernate.generate_statistics}</prop>
+                <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+                <prop key="hibernate.jdbc.use_scrollable_resultset">${hibernate.jdbc.use_scrollable_resultset}</prop>
+                <prop key="hibernate.query.substitutions">${hibernate.query.substitutions}</prop>
+                <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+                <prop key="hibernate.use_sql_comments">${hibernate.use_sql_comments}</prop>
+
+                <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</prop>
+                <prop key="hibernate.cache.use_second_level_cache">true</prop>
+                <prop key="hibernate.cache.use_query_cache">true</prop>
+                <prop key="hibernate.ejb.naming_strategy">
+                    com.thomsonreuters.grc.fsp.ums.dl.configuration.DLNamingStrategy
+                </prop>
+                <prop key="javax.persistence.validation.mode">none</prop>
+                <prop key="org.hibernate.envers.audit_table_prefix">rev_</prop>
+                <prop key="org.hibernate.envers.audit_table_suffix"/>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="data.entityManager"
+          class="org.springframework.orm.jpa.support.SharedEntityManagerBean"
+          p:entityManagerFactory-ref="data.entityManagerFactory"/>
+</beans>
