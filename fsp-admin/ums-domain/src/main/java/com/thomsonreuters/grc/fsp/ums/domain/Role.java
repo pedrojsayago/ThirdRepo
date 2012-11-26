@@ -15,6 +15,8 @@ import java.util.Set;
  */
 @Audited
 @Entity
+// The @UniqueConstraint annotation is for annotating multiple unique keys at the table level
+// La @UniqueConstraint anotacion sirve para anotar claves unicas multiples en el nivel tabla,
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = {"client_id", "name"}))
 public class Role extends AbstractIdentityObject {
 

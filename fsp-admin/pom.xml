@@ -18,8 +18,7 @@
 
     <name>FSP UMS: Aggregate</name>
 
-    <properties>
-        <github.owner>grc</github.owner>
+   
         <github.repository>fsp-admin</github.repository>
         <git.dotGitDirectory>${project.basedir}/.git</git.dotGitDirectory>
 
