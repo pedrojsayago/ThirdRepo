@@ -26,6 +26,8 @@ public class GroupServiceImpl implements GroupService {
     /**
      * Logger
      */
+
+fkdjslfkdslfjslkjfhdkjhfkdhf;kdhfkjh shfjshfjsfkdsh jsh fhhsjl hs fhs khs;khs;jh f
     private final Logger logger = LoggerFactory.getLogger(GroupServiceImpl.class);
 
     /**
