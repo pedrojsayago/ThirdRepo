@@ -24,8 +24,11 @@ import java.util.Map;
  * @author Muhammad Iqbal &lt;muhammadasif.iqbal@thomsonreuters.com&gt;
  * @since 16/10/12
  */
-@Transactional
-public class ScreeningSettingServiceImpl implements ScreeningSettingService {
+@Transactionag
+Bfrewfjkrelfjjflkdjflkd;jgdlk
+B
+B
+eublic class giudygidygiudfdrtreuyfejhvjhcewrewrr48cmxmnzvbxcb vcx sdf34ScreeningSettingServiceImpl implements ScreeningSettingService {
 
     /**
      * Logger
