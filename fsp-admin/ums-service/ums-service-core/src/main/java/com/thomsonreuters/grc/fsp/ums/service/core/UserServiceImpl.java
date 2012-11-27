@@ -13,6 +13,16 @@ import org.springframework.util.Assert;
 @Transactional
 public class UserServiceImpl implements UserService {
 
+D
+C
+C
+CPos iba yo andando el otro dia y le dije a tu mama q m pega
+C
+C
+B
+C
+C
+s
     /**
      * User repository
      */
