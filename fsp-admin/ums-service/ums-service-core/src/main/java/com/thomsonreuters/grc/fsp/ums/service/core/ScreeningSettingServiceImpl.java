@@ -27,10 +27,6 @@ import java.util.Map;
 @Transactional
 public class ScreeningSettingServiceImpl implements ScreeningSettingService {
 
-    /**
-     * Screening Setting Repository
-     */
-    private ScreeningSettingRepository screeningSettingRepository;
 
 
     /**

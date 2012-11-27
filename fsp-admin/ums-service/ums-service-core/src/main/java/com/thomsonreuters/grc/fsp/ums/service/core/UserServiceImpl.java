@@ -15,11 +15,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * User repository
-     */
-    private UserRepository userRepository;
-
-    @Required
-    public void setUserRepository(UserRepository userRepository) {
+     */Repository userRepository) {
         this.userRepository = userRepository;
     }
 
