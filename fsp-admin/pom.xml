@@ -1,6 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <parent>
+        <groupId>com.thomsonreuters.grc.platform.parent</groupId>
+        <artifactId>parent-grc</artifactId>
+        <version>3.0.1-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.thomsonreuters.grc.fsp</groupId>
+    <artifactId>ums</artifactId>
+    f
+Bfsfsfsfsfs:r
+
+
+B
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <parent>
         <groupId>com.thomsonreuters.grc.platform.parent</groupId>
@@ -19,6 +44,392 @@
     <name>FSP UMS: Aggregate</name>
 
    
+        <github.repository>fsp-admin</github.repository>
+        <git.dotGitDirectory>${project.basedir}/.git</git.dotGitDirectory>
+
+        <dep.common.base.version>0.1.0-SNAPSHOT</dep.common.base.version>
+    </properties>
+
+    <modules>
+        <module>ums-client</module>
+        <module>ums-dl</module>
+        <module>ums-domain</module>
+        <module>ums-service</module>
+        <module>ums-test</module>
+    </modules>
+
+    <scm>
+        <connection>${github.connection}</connection>
+        <developerConnection>${github.developerConnection}</developerConnection>
+        <url>${github.url}</url>
+    </scm>
+
+    <dependencyManagement>
+        <!-- Internal - FSP -->
+        <dependencies>
+            <dependency>
+                <groupId>com.thomsonreuters.grc.fsp.ums.client</groupId>
+                <artifactId>ums-client-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.thomsonreuters.grc.fsp.ums.client</groupId>
+                <artifactId>ums-client-ui</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.thomsonreuters.grc.fsp.ums</groupId>
+                <artifactId>ums-dl</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.thomsonreuters.grc.fsp.ums</groupId>
+                <artifactId>ums-domain</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.thomsonreuters.grc.fsp.ums.service</groupId>
+                <artifactId>ums-service-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.thomsonreuters.grc.fsp.ums.service</groupId>
+                <artifactId>ums-service-ui</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.thomsonreuters.grc.fsp.ums</groupId>
+                <artifactId>ums-test</artifactId>
+                <version>${project.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.thomsonreuters.grc.fsp.ums.service</groupId>
+                <artifactId>ums-service-core</artifactId>
+                <version>${project.version}</version>
+                <type>test-jar</type>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.thomsonreuters.grc.fsp.common</groupId>
+                <artifactId>common-base</artifactId>
+                <version>${dep.common.base.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <!-- Internal - Platform -->
+        <dependency>
+            <groupId>com.thomsonreuters.grc.platform.util</groupId>
+            <artifactId>util-config</artifactId>
+        </dependency>
+
+        <!-- External -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.logging</groupId>
+            <artifactId>jboss-logging</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>log4j-over-slf4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+    </dependencies>
+</project>
+
+    <parent>
+        <groupId>com.thomsonreuters.grc.platform.parent</groupId>
+        <artifactId>parent-grc</artifactId>
+B
+B
+B
+B
+B
+B/.b,mbkvbjkdjfgigotportuiyortpogkbglnvcv cnfdvndkfioewrWRqw
+B
+Bmmmmnn.../kmnn
+B
+B
+B
+dffsdfsdfsfsfsff       <version>3.0.1-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.thomsonreuters.grc.fsp</groupId>
+    <artifactId>ums</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+
+    <packaging>pom</packaging>
+
+    <name>FSP UMS: Aggregate</name>
+
+    <properties>
+        <github.owner>grc</github.owner>
+        <github.repository>fsp-admin</github.repository>
+        <git.dotGitDirectory>${project.basedir}/.git</git.dotGitDirectory>
+
+        <dep.common.base.version>0.1.0-SNAPSHOT</dep.common.base.version>
+    </properties>
+
+    <modules>
+        <module>ums-client</module>
+        <module>ums-dl</module>
+        <module>ums-domain</module>
+        <module>ums-service</module>
+        <module>ums-test</module>
+    </modules>
+
+    <scm>
+        <connection>${github.connection}</connection>
+        <developerConnection>${github.developerConnection}</developerConnection>
+        <url>${github.url}</url>
+    </scm>
+
+    <dependencyManagement>
+        <!-- Internal - FSP -->
+        <dependencies>
+            <dependency>
+                <groupId>com.thomsonreuters.grc.fsp.ums.client</groupId>
+                <artifactId>ums-client-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.thomsonreuters.grc.fsp.ums.client</groupId>
+                <artifactId>ums-client-ui</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.thomsonreuters.grc.fsp.ums</groupId>
+                <artifactId>ums-dl</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.thomsonreuters.grc.fsp.ums</groupId>
+                <artifactId>ums-domain</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.thomsonreuters.grc.fsp.ums.service</groupId>
+                <artifactId>ums-service-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.thomsonreuters.grc.fsp.ums.service</groupId>
+                <artifactId>ums-service-ui</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.thomsonreuters.grc.fsp.ums</groupId>
+                <artifactId>ums-test</artifactId>
+                <version>${project.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.thomsonreuters.grc.fsp.ums.service</groupId>
+                <artifactId>ums-service-core</artifactId>
+                <version>${project.version}</version>
+                <type>test-jar</type>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.thomsonreuters.grc.fsp.common</groupId>
+                <artifactId>common-base</artifactId>
+                <version>${dep.common.base.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <!-- Internal - Platform -->
+        <dependency>
+            <groupId>com.thomsonreuters.grc.platform.util</groupId>
+            <artifactId>util-config</artifactId>
+        </dependency>
+
+        <!-- External -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.logging</groupId>
+            <artifactId>jboss-logging</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>log4j-over-slf4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+    </dependencies>
+</project>
+
+B
+B
+fsdfsfsdfsfsfversion>0.1.0-SNAPSHOT</version>
+
+    <packaging>pom</packaging>
+
+    <name>FSP UMS: Aggregate</name>
+
+    <properties>
+        <github.owner>grc</github.owner>
+        <github.repository>fsp-admin</github.repository>
+        <git.dotGitDirectory>${project.basedir}/.git</git.dotGitDirectory>
+
+        <dep.common.base.version>0.1.0-SNAPSHOT</dep.common.base.version>
+    </properties>
+
+    <modules>
+        <module>ums-client</module>
+        <module>ums-dl</module>
+        <module>ums-domain</module>
+        <module>ums-service</module>
+        <module>ums-test</module>
+    </modules>
+
+    <scm>
+        <connection>${github.connection}</connection>
+        <developerConnection>${github.developerConnection}</developerConnection>
+        <url>${github.url}</url>
+    </scm>
+
+    <dependencyManagement>
+        <!-- Internal - FSP -->
+        <dependencies>
+            <dependency>
+                <groupId>com.thomsonreuters.grc.fsp.ums.client</groupId>
+                <artifactId>ums-client-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.thomsonreuters.grc.fsp.ums.client</groupId>
+                <artifactId>ums-client-ui</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.thomsonreuters.grc.fsp.ums</groupId>
+                <artifactId>ums-dl</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.thomsonreuters.grc.fsp.ums</groupId>
+                <artifactId>ums-domain</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.thomsonreuters.grc.fsp.ums.service</groupId>
+                <artifactId>ums-service-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.thomsonreuters.grc.fsp.ums.service</groupId>
+                <artifactId>ums-service-ui</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.thomsonreuters.grc.fsp.ums</groupId>
+                <artifactId>ums-test</artifactId>
+                <version>${project.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.thomsonreuters.grc.fsp.ums.service</groupId>
+                <artifactId>ums-service-core</artifactId>
+                <version>${project.version}</version>
+                <type>test-jar</type>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.thomsonreuters.grc.fsp.common</groupId>
+                <artifactId>common-base</artifactId>
+                <version>${dep.common.base.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <!-- Internal - Platform -->
+        <dependency>
+            <groupId>com.thomsonreuters.grc.platform.util</groupId>
+            <artifactId>util-config</artifactId>
+        </dependency>
+
+        <!-- External -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.logging</groupId>
+            <artifactId>jboss-logging</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>log4j-over-slf4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+    </dependencies>
+</project>
+
+    <parent>
+        <groupId>com.thomsonreuters.grc.platform.parent</groupId>
+        <artifactId>parent-grc</artifactId>
+B
+B
+B
+B
+B
+B/.b,mbkvbjkdjfgigotportuiyortpogkbglnvcv cnfdvndkfioewrWRqw
+B
+Bmmmmnn.../kmnn
+B
+B
+B
+dffsdfsdfsfsfsff       <version>3.0.1-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.thomsonreuters.grc.fsp</groupId>
+    <artifactId>ums</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+
+    <packaging>pom</packaging>
+
+    <name>FSP UMS: Aggregate</name>
+
+    <properties>
+        <github.owner>grc</github.owner>
         <github.repository>fsp-admin</github.repository>
         <git.dotGitDirectory>${project.basedir}/.git</git.dotGitDirectory>
 
