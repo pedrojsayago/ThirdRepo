@@ -13,16 +13,6 @@ import org.springframework.util.Assert;
 @Transactional
 public class UserServiceImpl implements UserService {
 
-D
-C
-C
-CPos iba yo andando el otro dia y le dije a tu mama q m pega
-C
-C
-B
-C
-C
-s
     /**
      * User repository
      */
@@ -45,6 +35,20 @@ s
 
         return user;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public User getEstEsMiMierdaMetodo(String identifier) {
+        Assert.notNull(identifier, "User Identifier is null");
+
+        User user = userRepository.findOne(identifier);
+
+        return user;
+    }
+
 
     /**
      * {@inheritDoc}

@@ -28,12 +28,6 @@ import java.util.Map;
 public class ScreeningSettingServiceImpl implements ScreeningSettingService {
 
     /**
-     * Logger
-     */
-    private static final Logger LOGGER = LoggerFactory.getLogger(ScreeningSettingServiceImpl.class);
-
-
-    /**
      * Screening Setting Repository
      */
     private ScreeningSettingRepository screeningSettingRepository;

@@ -6,9 +6,5 @@
         </encoder>
     </appender>
 
-    <root level="WARN">
-        <appender-ref ref="STDOUT" />
-    </root>
-
-    <logger name="com.thomsonreuters.grc" level="INFO"/>
+      <logger name="com.thomsonreuters.grc" level="INFO"/>
 </configuration>
