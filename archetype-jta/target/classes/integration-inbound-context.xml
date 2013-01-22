@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:tx="http://www.springframework.org/schema/tx" xmlns:p="http://www.springframework.org/schema/p" xmlns:c="http://www.springframework.org/schema/c"
+    xmlns:util="http://www.springframework.org/schema/util" xmlns:int="http://www.springframework.org/schema/integration"
+    xmlns:oxm="http://www.springframework.org/schema/oxm" xmlns:int-jms="http://www.springframework.org/schema/integration/jms"
+    xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+http://www.springframework.org/schema/oxm http://www.springframework.org/schema/oxm/spring-oxm.xsd
+http://www.springframework.org/schema/integration/jms http://www.springframework.org/schema/integration/jms/spring-integration-jms.xsd">
+
+    <!-- Our inbound message channel. -->
+    <int:channel id="integration.channel.inbound" />
+
+    <!-- A service activator attached to our inbound message channel; any incoming messages we receive will be translated 
+        into service calls on our application's message processing service. -->
+
+    <!-- Note that if this application also produces messages in addition to consuming them, we don't use the activator's 
+        'output-channel' facility here to automatically publish the return value of our service method to an outbound channel, as 
+        this breaches our transaction boundary (which is declared on the service method we're calling here). Instead we need to interact 
+        with a service interface gateway, which can perform the downstream message publication within the same inbound message acknowledgement 
+        transaction. -->
+    <int:service-activator input-channel="integration.channel.inbound" ref="service.MessageProcessingService"
+        method="processRequest" />
+
+    <!-- Inbound marshaller configuration. Note the jaxb2-marshaller could be combined with the outbound equivalent for applications 
+        requiring both inbound and outbound components. -->
+    <oxm:jaxb2-marshaller id="integration.inboundPayloadMarshaller">
+        <oxm:class-to-be-bound name="com.thomsonreuters.grc.platform.showcase.jta.domain.dto.SampleInboundRequest" />
+    </oxm:jaxb2-marshaller>
+
+    <bean id="integration.marshallingMessageConverter" class="org.springframework.jms.support.converter.MarshallingMessageConverter"
+        c:marshaller-ref="integration.inboundPayloadMarshaller" c:unmarshaller-ref="integration.inboundPayloadMarshaller" />
+
+    <!-- Message-driven channel adapter; this ties together the JMS and Spring Integration inbound queues. The inbound JMS 
+        message is assumed to be the XML representation of our request DTO, so we include a message converter here to unmarshall 
+        the XML into a request DTO instance, so our java components only ever need deal with the DTO objects themselves. -->
+    <int-jms:message-driven-channel-adapter id="integration.jms.inboundAdapter"
+        container="integration.jms.messageListenerContainer" message-converter="integration.marshallingMessageConverter"
+        channel="integration.channel.inbound" />
+
+</beans>

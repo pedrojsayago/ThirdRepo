@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="ums-service-ui:war">
+    <output-path>$PROJECT_DIR$/ums-service/ums-service-ui/target</output-path>
+    <root id="archive" name="ums-service-ui-0.1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="ums-service-ui:war exploded" />
+    </root>
+  </artifact>
+</component>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:tx="http://www.springframework.org/schema/tx" xmlns:p="http://www.springframework.org/schema/p" xmlns:c="http://www.springframework.org/schema/c"
+    xmlns:util="http://www.springframework.org/schema/util" xmlns:int="http://www.springframework.org/schema/integration"
+    xmlns:int-jms="http://www.springframework.org/schema/integration/jms"
+    xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+http://www.springframework.org/schema/integration/jms http://www.springframework.org/schema/integration/jms/spring-integration-jms.xsd">
+
+    <bean id="jms.queue.clientDestination" class="org.apache.activemq.command.ActiveMQQueue" c:name="test.queue.inbound" />
+
+    <int-jms:outbound-channel-adapter id="jms.clientOutboundAdapter" destination="jms.queue.clientDestination"
+        channel="integration.clientOutboundChannel" connection-factory="integration.jms.connectionFactory" />
+
+    <bean id="integration.client.messageTransformingChannelInterceptor" class="org.springframework.integration.transformer.MessageTransformingChannelInterceptor"
+        c:transformer-ref="integration.client.marshallingTransformer" />
+
+    <bean id="integration.client.marshallingTransformer" class="org.springframework.integration.xml.transformer.MarshallingTransformer"
+        c:marshaller-ref="integration.inboundPayloadMarshaller" c:resultTransformer-ref="integration.stringTransformer" />
+
+    <int:channel id="integration.clientOutboundChannel">
+        <int:interceptors>
+            <ref bean="integration.client.messageTransformingChannelInterceptor" />
+        </int:interceptors>
+    </int:channel>
+
+</beans>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:tx="http://www.springframework.org/schema/tx" xmlns:p="http://www.springframework.org/schema/p" xmlns:c="http://www.springframework.org/schema/c"
+    xmlns:util="http://www.springframework.org/schema/util" xmlns:int="http://www.springframework.org/schema/integration"
+    xmlns:oxm="http://www.springframework.org/schema/oxm"
+    xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+http://www.springframework.org/schema/oxm http://www.springframework.org/schema/oxm/spring-oxm.xsd">
+
+    <!-- This file will be included in the messaging client module of the downstream service we're interacting with. We just 
+        need to provide configuration on which of our Spring Integration channels we want to hook remote service calls to. -->
+
+    <int:gateway id="integration.downstreamService" service-interface="com.thomsonreuters.grc.platform.showcase.jta.service.DownstreamService"
+        default-request-channel="${integration.downstreamServiceChannel}" />
+
+</beans>

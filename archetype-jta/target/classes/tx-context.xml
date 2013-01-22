@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:tx="http://www.springframework.org/schema/tx" xmlns:p="http://www.springframework.org/schema/p" xmlns:c="http://www.springframework.org/schema/c"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <!-- Configure a Bitronix Transaction Manager (BTM) instance -->
+    <bean id="tx.btm.config" factory-method="getConfiguration" class="bitronix.tm.TransactionManagerServices"
+        p:serverId="${integration.tx.btm.serverId}" />
+
+    <bean id="tx.btm.txManager" factory-method="getTransactionManager" class="bitronix.tm.TransactionManagerServices"
+        depends-on="tx.btm.config" destroy-method="shutdown" />
+
+    <!-- Wire the BTM instance into Spring's JTA-aware transaction framework -->
+    <bean id="tx.jta.txManager" class="org.springframework.transaction.jta.JtaTransactionManager"
+        p:transactionManager-ref="tx.btm.txManager" p:userTransaction-ref="tx.btm.txManager" />
+
+    <alias name="tx.jta.txManager" alias="tx.transactionManager" />
+    <alias name="tx.jta.txManager" alias="transactionManager" />
+
+</beans>

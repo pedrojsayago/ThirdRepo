@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:tx="http://www.springframework.org/schema/tx" xmlns:p="http://www.springframework.org/schema/p" xmlns:c="http://www.springframework.org/schema/c"
+    xmlns:util="http://www.springframework.org/schema/util" xmlns:int="http://www.springframework.org/schema/integration"
+    xmlns:int-jms="http://www.springframework.org/schema/integration/jms"
+    xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+http://www.springframework.org/schema/integration/jms http://www.springframework.org/schema/integration/jms/spring-integration-jms.xsd">
+
+    <!-- JMS connection factory. This is common for both inbound and outbound JMS integration patterns (we assume we'll be 
+        dealing with a single broker for both). -->
+    <util:properties id="integration.jms.connectionFactory.properties">
+        <prop key="brokerURL">${integration.jms.brokerUrl}</prop>
+    </util:properties>
+
+    <!-- <bean id="integration.jms.connectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory" p:brokerURL="${integration.jms.brokerUrl}" 
+        p:userName="${integration.jms.user}" p:password="${integration.jms.password}" /> -->
+
+    <bean id="integration.jms.connectionFactory" class="bitronix.tm.resource.jms.PoolingConnectionFactory"
+        init-method="init" destroy-method="close" p:className="org.apache.activemq.spring.ActiveMQXAConnectionFactory"
+        p:uniqueName="${integration.tx.jndi.jmsResource}" p:minPoolSize="1" p:maxPoolSize="10" p:user="${integration.jms.user}"
+        p:password="${integration.jms.password}" p:driverProperties-ref="integration.jms.connectionFactory.properties"
+        depends-on="tx.transactionManager" />
+
+</beans>

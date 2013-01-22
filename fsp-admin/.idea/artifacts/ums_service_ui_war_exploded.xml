@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="ums-service-ui:war exploded">
+    <output-path>$PROJECT_DIR$/ums-service/ums-service-ui/target/ums-service-ui-0.1.0-SNAPSHOT</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="ums-service-ui/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="ums-service-ui" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds">
+
+    <!-- The name of the current application -->
+    <contextName>archetype-jta</contextName>
+
+    <!-- Allow runtime log manipulation via JMX -->
+    <jmxConfigurator />
+
+    <!-- Pull in the git.properties file if available, for artefact fingerprinting -->
+    <property resource="git.properties" />
+    <variable name="GIT_FINGERPRINT" value="${git.commit.id.describe:-artefact fingerprint unavailable}" />
+
+    <!-- Define where our base log file output location is -->
+    <variable name="LOG_LOCATION" value="${LOG_BASE:-./logs}" />
+
+    <!-- JUL bridge optimization -->
+    <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+        <resetJUL>true</resetJUL>
+    </contextListener>
+
+    <!-- Define the log message output pattern to use across all appenders -->
+    <variable name="ENCODER_PATTERN"
+        value="%date{ISO8601} [${HOSTNAME};%contextName;%30.30thread;%mdc{transactionId}] \\(${GIT_FINGERPRINT}\\) %80.80logger{80} %5level  -  %message%n%xThrowable" />
+
+    <!-- Define a file appender -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file><![CDATA[${LOG_LOCATION}/${CONTEXT_NAME}.${HOSTNAME}.log]]></file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- Specify daily rollover, with all daily logs archived in a monthly folder -->
+            <fileNamePattern><![CDATA[${LOG_LOCATION}/%d{yyyy-MM,aux}/${CONTEXT_NAME}.${HOSTNAME}-%d{yyyy-MM-dd}.log]]></fileNamePattern>
+
+            <!-- We rely on external cleanup of archived log files, instead of having logback clean up after itself -->
+            <!-- <maxHistory>30</maxHistory> -->
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>${ENCODER_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Define a standard output appender -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${ENCODER_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Set the root (default) logging level and specify what appenders are needed -->
+    <root level="TRACE">
+        <appender-ref ref="FILE" />
+        <appender-ref ref="STDOUT" />
+    </root>
+
+    <!-- Set explicit log configuration for individual packages -->
+    <logger name="com.thomsonreuters.grc" level="DEBUG" />
+    <logger name="org.springframework" level="INFO" />
+    <logger name="org.springframework.integration" level="TRACE" />
+    <logger name="org.springframework.jms" level="TRACE" />
+    
+    <logger name="bitronix.tm" level="INFO" />
+    <logger name="bitronix.tm.BitronixTransaction" level="TRACE" />
+    <logger name="org.springframework.transaction" level="TRACE" />
+    <!-- <logger name="org.hibernate" level="INFO" /> -->
+    <logger name="org.apache.activemq" level="INFO" />
+    <logger name="org.apache.xbean" level="INFO" />
+    <logger name="org.apache.kahadb" level="INFO" />
+
+</configuration>

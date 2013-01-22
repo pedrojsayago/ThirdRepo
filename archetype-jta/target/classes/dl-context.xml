@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.springframework.org/schema/data/jpa" xmlns:util="http://www.springframework.org/schema/util"
+    xmlns:p="http://www.springframework.org/schema/p" xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+
+    <repositories base-package="com.thomsonreuters.grc.platform.showcase.jta.dl" />
+
+    <util:properties id="dl.dataSourceProperties">
+        <beans:prop key="URL">${dl.datasource.h2.url}</beans:prop>
+        <beans:prop key="user">${dl.datasource.h2.user}</beans:prop>
+        <beans:prop key="password">${dl.datasource.h2.password}</beans:prop>
+    </util:properties>
+
+    <!-- Application datasource. Note this implements a pool of underlying XA-aware vendor DataSource implementations, where 
+        the pool is managed by the JTA implementation. -->
+    <beans:bean id="dl.dataSource" class="bitronix.tm.resource.jdbc.PoolingDataSource" init-method="init"
+        destroy-method="close" p:className="org.h2.jdbcx.JdbcDataSource" p:uniqueName="${integration.tx.jndi.dbResource}"
+        p:maxPoolSize="3" p:allowLocalTransactions="true" p:driverProperties-ref="dl.dataSourceProperties"
+        p:enableJdbc4ConnectionTest="true" depends-on="tx.transactionManager" />
+
+    <!-- Register our JTA-aware entity manager. We specify package scanning to avoid needing a separate persistence.xml JPA 
+        config. -->
+    <!-- Note that specifying the datasource needs to happen via the 'jtaDataSource' property in order for correct transaction 
+        participation; do not use the regular 'dataSource' property! -->
+    <beans:bean id="dl.entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
+        p:jtaDataSource-ref="dl.dataSource" p:packagesToScan="com.thomsonreuters.grc.platform.showcase.jta.domain"
+        p:persistenceUnitName="${dl.jpa.persistenceUnitName}" p:persistenceProviderClass="org.hibernate.ejb.HibernatePersistence"
+        lazy-init="true">
+
+        <!-- Note: as we're using JTA, we don't need to specify jpaDialect here -->
+
+        <beans:property name="jpaVendorAdapter">
+            <beans:bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" p:showSql="${dl.rdbms.showSql}"
+                p:generateDdl="${dl.rdbms.generateDdl}" p:database="${dl.rdbms.vendor}" />
+        </beans:property>
+
+        <beans:property name="jpaProperties">
+            <beans:props>
+                <beans:prop key="hibernate.dialect">${dl.hibernate.dialect}</beans:prop>
+                <beans:prop key="hibernate.autoReconnect">${dl.hibernate.autoReconnect}</beans:prop>
+                <beans:prop key="hibernate.query.substitutions">${dl.hibernate.query.substitutions}</beans:prop>
+                <beans:prop key="hibernate.hbm2ddl.auto">${dl.hibernate.hbm2ddl.auto}</beans:prop>
+                <beans:prop key="hibernate.show_sql">${dl.rdbms.showSql}</beans:prop>
+                <beans:prop key="hibernate.format_sql">${dl.hibernate.format_sql}</beans:prop>
+                <beans:prop key="hibernate.use_sql_comments">${dl.hibernate.use_sql_comments}</beans:prop>
+                <beans:prop key="hibernate.generate_statistics">${dl.hibernate.generate_statistics}</beans:prop>
+                <beans:prop key="hibernate.connection.autocommit">${dl.hibernate.connection.autocommit}</beans:prop>
+                <beans:prop key="hibernate.connection.release_mode">${dl.hibernate.connection.release_mode}</beans:prop>
+
+                <!-- Disable caching for this showcase -->
+                <beans:prop key="hibernate.cache.provider_class">org.hibernate.cache.NoCacheProvider</beans:prop>
+
+                <!-- Disable entity validation for this showcase -->
+                <beans:prop key="javax.persistence.validation.mode">none</beans:prop>
+
+                <!-- Wire in our JTA provider to Hibernate -->
+                <beans:prop key="hibernate.transaction.jta.platform">org.hibernate.service.jta.platform.internal.BitronixJtaPlatform</beans:prop>
+                <beans:prop key="hibernate.jndi.class">bitronix.tm.jndi.BitronixInitialContextFactory</beans:prop>
+                <beans:prop key="hibernate.connection.datasource">${integration.tx.jndi.dbResource}</beans:prop>
+                <!-- <beans:prop key="hibernate.transaction.factory_class">org.hibernate.transaction.JTATransactionFactory</beans:prop> -->
+
+                <!-- <beans:prop key="hibernate.current_session_context_class">jta</beans:prop> <beans:prop key="hibernate.transaction.factory_class">org.hibernate.transaction.CMTTransactionFactory</beans:prop> -->
+            </beans:props>
+        </beans:property>
+    </beans:bean>
+
+    <beans:bean id="dl.entityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean"
+        p:entityManagerFactory-ref="dl.entityManagerFactory" lazy-init="true" />
+
+    <tx:annotation-driven transaction-manager="tx.jta.txManager" />
+
+</beans:beans>

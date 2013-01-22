@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:tx="http://www.springframework.org/schema/tx" xmlns:p="http://www.springframework.org/schema/p" xmlns:c="http://www.springframework.org/schema/c"
+    xmlns:util="http://www.springframework.org/schema/util" xmlns:int="http://www.springframework.org/schema/integration"
+    xmlns:oxm="http://www.springframework.org/schema/oxm" xmlns:int-jms="http://www.springframework.org/schema/integration/jms"
+    xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+http://www.springframework.org/schema/oxm http://www.springframework.org/schema/oxm/spring-oxm.xsd
+http://www.springframework.org/schema/integration/jms http://www.springframework.org/schema/integration/jms/spring-integration-jms.xsd">
+
+    <!-- Our outbound Spring Integration channel. We attach an interceptor to marshall our outbound response DTOs to XML. 
+        We also attach our downstream service gateway to publish to this channel, so any requests on a downstream service interface 
+        will get translated into an outbound message on this channel. -->
+    <int:channel id="integration.channel.outbound">
+        <int:interceptors>
+            <ref bean="integration.messageTransformingChannelInterceptor" />
+        </int:interceptors>
+    </int:channel>
+
+    <bean id="integration.messageTransformingChannelInterceptor" class="org.springframework.integration.transformer.MessageTransformingChannelInterceptor"
+        c:transformer-ref="integration.marshallingTransformer" />
+
+    <!-- Outbound marshaller configuration. Note the jaxb2-marshaller could be combined with the inbound equivalent for applications 
+        requiring both inbound and outbound components. -->
+    <oxm:jaxb2-marshaller id="integration.outboundPayloadMarshaller">
+        <!-- The response DTOs we'll be sending from the application. -->
+        <oxm:class-to-be-bound name="com.thomsonreuters.grc.platform.showcase.jta.domain.dto.SampleOutboundResponse" />
+    </oxm:jaxb2-marshaller>
+
+    <bean id="integration.stringTransformer" class="org.springframework.integration.xml.transformer.ResultToStringTransformer" />
+
+    <bean id="integration.marshallingTransformer" class="org.springframework.integration.xml.transformer.MarshallingTransformer"
+        c:marshaller-ref="integration.outboundPayloadMarshaller" c:resultTransformer-ref="integration.stringTransformer" />
+
+    <!-- Outbound channel adapter; this ties together the JMS and Spring Integration outbound queues. This simply relays 
+        the already-marshalled XML representation of the outbound response DTO from the Spring Integration channel onto the JMS queue. -->
+    <int-jms:outbound-channel-adapter id="integration.jms.outboundAdapter" destination="integration.jms.queue.outbound"
+        channel="integration.channel.outbound" connection-factory="integration.jms.connectionFactory" />
+
+</beans>
